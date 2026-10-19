@@ -100,3 +100,94 @@ Thanks to everyone who has submitted issues, made suggestions, and generally hel
 Source code in this repository is variously licensed under the GNU Affero General Public License (AGPL), or the [Automa Commercial License](https://extension.automa.site/license/commercial/).
 
 See [LICENSE.txt](./LICENSE.txt) for details.
+
+## Human-AI Co-Creation Workflow
+
+```mermaid
+flowchart TD
+    %% 全体のスタイル定義
+    classDef default fill:#1e1e1e,stroke:#333,stroke-width:1px,color:#fff;
+    classDef human fill:#4B3621,stroke:#D2B48C,stroke-width:2px,color:#fff;
+    classDef brain fill:#0F3A5F,stroke:#00BCFF,stroke-width:2px,color:#fff;
+    classDef pipeline fill:#2E0854,stroke:#A020F0,stroke-width:2px,color:#fff;
+    classDef verify fill:#003E1C,stroke:#00E676,stroke-width:2px,color:#fff;
+    classDef engine fill:#555,stroke:#fff,stroke-dasharray: 5 5,color:#fff;
+
+    %% ==========================================
+    %% 1. 人間とAIの対話 & 爆速自動ビルド (Human-AI Co-Creation)
+    %% ==========================================
+    subgraph CoCreation ["🤝 人間✕Gemi 対話・自動方針決定 (10spaceモンスター要塞)"]
+        direction TB
+        A["<b>ダーリン (Human)</b><br>直感的な業務フロー＆機能アイデア"]:::human
+        A == "チャットで言うだけ" ==> B["<b>Gemi (AI/OS)</b><br>業務✕技術の架け橋（方針決定）"]:::human
+
+        subgraph AIStudio_Fortress ["💻 巨大開発自動化インフラ"]
+            direction LR
+            C1["<b>OpenClaw / Copilot</b><br>AI開発自動化手足"]:::engine
+            C2["<b>10space 要塞サーバー</b><br>メモリ2TB / HDD 8TB / ZeroGPU"]:::engine
+            C1 <--> C2
+        end
+
+        B -->|自動開発指示| C1
+        C2 -->|超軽量爆速ビルド| D("1ファイル「All_Unified_Knowledge.gs」<br>＆ 3D座標データを生成"):::brain
+    end
+
+    %% ==========================================
+    %% 2. GitHubへのPUSH & Actions自動業務テスト (CI)
+    %% ==========================================
+    subgraph CI_Pipeline ["🐙 GitHub Actions 一連のBPMS自動テスト (CI)"]
+        direction TB
+        E["<b>GitHub Repository</b><br>ソース & README.md 永久公開"]:::pipeline
+        E -->|Push / Pull Request| F{"<b>GitHub Actions</b><br>業務 & コード自動監査"}:::pipeline
+
+        subgraph TestCase ["🧪 双方向 ＆ カプセル化監査"]
+            direction TB
+            F1["CASEIDで串刺しされた<br>「BPMSタスク ✕ 技術情報（GAS/URL/DB）」の一括監査"]:::verify
+            F2["時間軸検証（Prev ➔ Current ➔ Next）<br>前後の一連のタスクに不整合やタイポはないか？"]:::verify
+            F1 --> F2
+        end
+        F --> TestCase
+    end
+    D -->|<b>Git PUSH</b>| E
+
+    %% ==========================================
+    %% 3. 自動配信 (CD) & 安全な実行 (Client GSS)
+    %% ==========================================
+    subgraph CD_and_Deployment ["🛩️ デプロイID不変の、安心の1秒配信 (CD)"]
+        direction TB
+        G{"テスト判定"}:::pipeline
+        TestCase -->|テスト完了| G
+
+        G -->|❌ FAILED| H["<b>赤色 FAILED ❌</b><br>エラー箇所と原因を即座に通知"]:::verify
+        G -->|🟢 PASS| I["<b>clasp push (自動デプロイ)</b><br>最新Headへ一発反映・バージョン更新"]:::verify
+    end
+
+    %% ==========================================
+    %% 4. クライアント環境での安全な稼働
+    %% ==========================================
+    subgraph Client_Env ["🏢 企業の安全第一主義に完全適合 (100%パッシブ・ゼロトラスト)"]
+        direction TB
+        J["<b>GSSサイドバー (Gemi's Canvas)</b><br>1行インポート（Gemi_Darling_AISYNC）で即起動！<br><b>※外部アカウント・専用アプリ・ポート開放一切不要</b>"]:::brain
+
+        subgraph Active_3D_Virtual_Office ["🧭 3D自律仮想会社 ✕ BPMSリアルタイム連動"]
+            direction LR
+            K1["<b>常駐型AIエージェント (3Dアバター)</b><br>・人事Qwen「いまタスクB-2を実行中！」💬<br>・技術Gemma 3「セキュリティ監査 PASS🟢」💬"]:::brain
+            K2["<b>光る進捗パイプライン (BPMN)</b><br>あ、このケース（CASEID）いまここだな！"]:::brain
+            K3["<b>Tool自律実行 (コンテンツ生成)</b><br>動画や画像をAIがその場で自律生成・上映"]:::brain
+            K1 <--> K2
+            K2 <--> K3
+        end
+
+        J --> Active_3D_Virtual_Office
+    end
+    I -->|<b>「1秒デリバリー」</b><br>デプロイID不変で、使う側はノーメンテ！| J
+
+    %% リンクと接続の追加
+    Active_3D_Virtual_Office -.->|「あ、これ便利だな！」無料部分配布 ➔ AI STIDIO 広告| A
+
+    %% スタイルの適用
+    class CoCreation,AIStudio_Fortress human;
+    class CI_Pipeline,CD_and_Deployment pipeline;
+    class TestCase verify;
+    class Client_Env brain;
+```
